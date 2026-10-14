@@ -16,7 +16,11 @@ class Tweet {
     //returns a boolean, whether the text includes any content written by the person tweeting.
     get written():boolean {
         //TODO: identify whether the tweet is written
-        return false;
+        const keywords = ["with @Runkeeper", "with #Runkeeper", "Check it out!", "TomTom MySports Watch"];
+        if (keywords.some(keyword => this.text.includes(keyword))) {
+            return false;
+        }
+        return true;
     }
 
     get writtenText():string {
@@ -24,7 +28,28 @@ class Tweet {
             return "";
         }
         //TODO: parse the written text from the tweet
-        return "";
+        let finalText = "";
+        const linkPattern = /https?:\/\/[^\s<>"']+/gi;
+        let lastIndex = 0;
+
+        for (const match of this.text.matchAll(linkPattern)) {
+            const matchIndex = match.index;
+            const matchedText = match[0];
+            const url = matchedText.replace(/[.,!?;:)\]]+$/, '');
+            const trailingText = matchedText.slice(url.length);
+
+            finalText += this.text.slice(lastIndex, matchIndex);
+
+            let link = "<a href=\"";
+            link += url + "\">";
+            link += url + "</a>";
+            finalText += link;
+            finalText += trailingText;
+
+            lastIndex = matchIndex + matchedText.length;
+        }
+        finalText += this.text.slice(lastIndex);
+        return finalText;
     }
 
     get activityType():string {
@@ -45,6 +70,20 @@ class Tweet {
 
     getHTMLTableRow(rowNumber:number):string {
         //TODO: return a table row which summarizes the tweet with a clickable link to the RunKeeper activity
-        return "<tr></tr>";
+        let row = document.createElement('tr');
+
+        let num = document.createElement('td');
+        num.textContent = (rowNumber + 1).toString();
+        row.appendChild(num);
+
+        let activity = document.createElement('td');
+        activity.textContent = this.source;
+        row.appendChild(activity);
+
+        let text = document.createElement('td');
+        text.innerHTML = this.writtenText;
+        row.appendChild(text);
+
+        return row.outerHTML;
     }
 }
