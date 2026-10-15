@@ -22,7 +22,9 @@ function parseTweets(runkeeper_tweets) {
 function renderTweets() {
 	let keyword = document.getElementById('textFilter').value.trim().toLowerCase();
 	let matchingTweets = tweet_array.filter(function(tweet) {
-		return tweet.text.toLowerCase().includes(keyword);
+		let tweetText = tweet.text.slice(0, tweet.text.indexOf('https://t.co')).trim();
+
+		return tweetText.toLowerCase().includes(keyword);
 	});
 
 	let table = document.getElementById('tweetTable');
