@@ -28,20 +28,44 @@ function parseTweets(runkeeper_tweets) {
 }
 
 function updateActivitySpans(tweet_array) {
+	// updating most common activities and number of activities
 	most_common_activities = tweet_array.reduce((acc, tweet) => {
 		const activity = tweet.activityType;
 		acc[activity] = (acc[activity] || 0) + 1;
 		return acc;
 	}, {});
 	
-	document.getElementById('numberActivities').innerText = Object.keys(most_common_activities).length;
-
+	document.getElementById('numberActivities').innerHTML = '<strong>' + Object.keys(most_common_activities).length + '</strong>';
 
 	const sorted_activities = Object.fromEntries(Object.entries(most_common_activities).sort(([,a],[,b]) => b-a));
+	document.getElementById('firstMost').innerHTML = '<strong>' + Object.keys(sorted_activities)[0] + '</strong>';
+	document.getElementById('secondMost').innerHTML = '<strong>' + Object.keys(sorted_activities)[1] + '</strong>';
+	document.getElementById('thirdMost').innerHTML = '<strong>' + Object.keys(sorted_activities)[2] + '</strong>';
 
-	document.getElementById('firstMost').innerText = Object.keys(sorted_activities)[0];
-	document.getElementById('secondMost').innerText = Object.keys(sorted_activities)[1];
-	document.getElementById('thirdMost').innerText = Object.keys(sorted_activities)[2];
+	//updating the longest and shortest of the three activities
+	first_most_tweets = tweet_array.filter(tweet => {
+		return tweet.activityType === Object.keys(sorted_activities)[0];
+	});
+
+	first_most_tweets.sort((a, b) => b.distance - a.distance);
+
+	sec_most_tweets = tweet_array.filter(tweet => {
+		return tweet.activityType === Object.keys(sorted_activities)[1];
+	});
+	sec_most_tweets.sort((a, b) => b.distance - a.distance);
+
+	third_most_tweets = tweet_array.filter(tweet => {
+		return tweet.activityType === Object.keys(sorted_activities)[2];
+	});
+	third_most_tweets.sort((a, b) => b.distance - a.distance);
+
+
+	const longest_Distance = [first_most_tweets[0], sec_most_tweets[0], third_most_tweets[0]];
+	longest_Distance.sort((a, b) => b.distance - a.distance);
+	
+	document.getElementById('longestActivityType').innerHTML = '<strong>' + longest_Distance[0].activityType + '</strong>';
+	document.getElementById('shortestActivityType').innerHTML = '<strong>' + longest_Distance[2].activityType + '</strong>';
+	
 }
 
 //Wait for the DOM to load
