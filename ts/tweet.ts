@@ -112,7 +112,7 @@ class Tweet {
         row.appendChild(num);
 
         let activity = document.createElement('td');
-        activity.textContent = this.distance.toFixed(2) + " mi";
+        activity.textContent = this.activityType;
         row.appendChild(activity);
 
         let text = document.createElement('td');
