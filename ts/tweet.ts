@@ -9,7 +9,6 @@ class Tweet {
 
 	//returns either 'live_event', 'achievement', 'completed_event', or 'miscellaneous'
     get source():string {
-        //TODO: identify whether the source is a live event, an achievement, a completed event, or miscellaneous.
         const textLower = this.text.toLowerCase();
 
         if (textLower.includes("right now") || textLower.includes("live")) {
@@ -33,7 +32,6 @@ class Tweet {
 
     //returns a boolean, whether the text includes any content written by the person tweeting.
     get written():boolean {
-        //TODO: identify whether the tweet is written
         const keywords = ["with @Runkeeper", "with #Runkeeper", "Check it out!", "TomTom MySports Watch"];
         if (keywords.some(keyword => this.text.includes(keyword))) {
             return false;
@@ -66,7 +64,7 @@ class Tweet {
 
             lastIndex = matchIndex + matchedText.length;
         }
-        finalText += this.text.slice(lastIndex);
+        // finalText += this.text.slice(lastIndex); // to include the hashtag after link
         return finalText;
     }
 
@@ -74,7 +72,17 @@ class Tweet {
         if (this.source != 'completed_event') {
             return "unknown";
         }
-        //TODO: parse the activity type from the text of the tweet
+        const textLower = this.text.toLowerCase();
+        if (textLower.includes("run")) {
+            return "run";
+        } else if (textLower.includes("walk")) {
+            return "walk";
+        } else if (textLower.includes("bike")) {
+            return "bike";
+        } else if (textLower.includes("swim")) {
+            return "swim";
+        }
+
         return "";
     }
 
@@ -83,6 +91,15 @@ class Tweet {
             return 0;
         }
         //TODO: prase the distance from the text of the tweet
+        const distancePattern = /\b(\d+(?:\.\d+)?)\s*(mi|km)/i;
+        const match = this.text.match(distancePattern);
+        if (match) {
+            let distance = Number(match[1]);
+            if (match[2].toLowerCase() === "km") {
+                distance *= 0.621371; // Convert kilometers to miles
+            }
+            return distance;
+        }
         return 0;
     }
 
@@ -95,7 +112,7 @@ class Tweet {
         row.appendChild(num);
 
         let activity = document.createElement('td');
-        activity.textContent = this.source;
+        activity.textContent = this.distance.toFixed(2) + " mi";
         row.appendChild(activity);
 
         let text = document.createElement('td');
