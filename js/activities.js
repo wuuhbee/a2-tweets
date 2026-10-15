@@ -59,13 +59,37 @@ function updateActivitySpans(tweet_array) {
 	});
 	third_most_tweets.sort((a, b) => b.distance - a.distance);
 
-
 	const longest_Distance = [first_most_tweets[0], sec_most_tweets[0], third_most_tweets[0]];
 	longest_Distance.sort((a, b) => b.distance - a.distance);
+
+	const longestActivity = longest_Distance[0].activityType;
 	
 	document.getElementById('longestActivityType').innerHTML = '<strong>' + longest_Distance[0].activityType + '</strong>';
 	document.getElementById('shortestActivityType').innerHTML = '<strong>' + longest_Distance[2].activityType + '</strong>';
 	
+	// weekday/weekend
+	only_longest_activities = tweet_array.filter(tweet => {
+		return tweet.activityType === longestActivity;
+	});
+	
+	const weekday_activities = only_longest_activities.filter(tweet => {
+		const day = new Date(tweet.time).getDay();
+		return day !== 0 && day !== 6; // 0 is Sunday, 6 is Saturday
+	});
+
+	const weekend_activities = only_longest_activities.filter(tweet => {
+		const day = new Date(tweet.time).getDay();
+		return day === 0 || day === 6; // 0 is Sunday, 6 is Saturday
+	});
+
+	weekday_activities.sort((a, b) => b.distance - a.distance);
+	weekend_activities.sort((a, b) => b.distance - a.distance);
+
+	if (weekday_activities[0].distance > weekend_activities[0].distance) {
+		document.getElementById('weekdayOrWeekendLonger').innerHTML = '<strong>weekdays</strong>';
+	} else if (weekday_activities[0].distance < weekend_activities[0].distance) {
+		document.getElementById('weekdayOrWeekendLonger').innerHTML = '<strong>weekends</strong>';
+	}
 }
 
 //Wait for the DOM to load
