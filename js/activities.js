@@ -9,6 +9,8 @@ function parseTweets(runkeeper_tweets) {
 		return new Tweet(tweet.text, tweet.created_at);
 	});
 
+	updateActivitySpans(tweet_array);
+
 	//TODO: create a new array or manipulate tweet_array to create a graph of the number of tweets containing each type of activity.
 
 	activity_vis_spec = {
@@ -23,6 +25,23 @@ function parseTweets(runkeeper_tweets) {
 
 	//TODO: create the visualizations which group the three most-tweeted activities by the day of the week.
 	//Use those visualizations to answer the questions about which activities tended to be longest and when.
+}
+
+function updateActivitySpans(tweet_array) {
+	most_common_activities = tweet_array.reduce((acc, tweet) => {
+		const activity = tweet.activityType;
+		acc[activity] = (acc[activity] || 0) + 1;
+		return acc;
+	}, {});
+	
+	document.getElementById('numberActivities').innerText = Object.keys(most_common_activities).length;
+
+
+	const sorted_activities = Object.fromEntries(Object.entries(most_common_activities).sort(([,a],[,b]) => b-a));
+
+	document.getElementById('firstMost').innerText = Object.keys(sorted_activities)[0];
+	document.getElementById('secondMost').innerText = Object.keys(sorted_activities)[1];
+	document.getElementById('thirdMost').innerText = Object.keys(sorted_activities)[2];
 }
 
 //Wait for the DOM to load
