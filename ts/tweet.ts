@@ -72,18 +72,25 @@ class Tweet {
         if (this.source != 'completed_event') {
             return "unknown";
         }
-        const textLower = this.text.toLowerCase();
-        if (textLower.includes("run")) {
-            return "run";
-        } else if (textLower.includes("walk")) {
+        const activityString = this.text.slice(0, this.text.indexOf('-'));
+        if (activityString.search("walk") !== -1) {
             return "walk";
-        } else if (textLower.includes("bike")) {
+        } else if (activityString.search("bike") !== -1 || activityString.search("biking") !== -1) {
             return "bike";
-        } else if (textLower.includes("swim")) {
+        } else if (activityString.search("swim") !== -1 || activityString.search("swimming") !== -1) {
             return "swim";
+        } else if (activityString.search("hike") !== -1 || activityString.search("hiking") !== -1) {
+            return "hike";
+        } else if (activityString.search("yoga") !== -1) {
+            return "yoga";
+        } else if (activityString.search("elliptical") !== -1) {
+            return "elliptical";
+        } else if (activityString.search("strength") !== -1) {
+            return "strength";
+        } else if (activityString.search('run') !== -1) {
+            return "run";
         }
-
-        return "";
+        return "activity";
     }
 
     get distance():number {
