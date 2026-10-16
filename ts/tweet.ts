@@ -1,36 +1,3 @@
-const ACTIVITY_PATTERNS: [RegExp, string][] = [
-    [/\b(?:mountain|mtn)\s+bik(?:e|ing)\b/, "mountain bike"],
-    [/\bnordic\s+walk(?:ing)?\b/, "nordic walk"],
-    [/\bski(?:ing)?\s+run\b/, "ski run"],
-    [/\bsnowboard(?:ing)?\b/, "snowboard"],
-    [/\bmysports\s+freestyle\b/, "freestyle"],
-    [/\bmysports\s+gym\b/, "gym"],
-    [/\belliptic(?:al)?\b/, "elliptical"],
-    [/\bspinning\b/, "spinning"],
-    [/\bcrossfit\b/, "crossfit"],
-    [/\b(?:stairmaster|stepwell)\b/, "stairmaster / stepwell"],
-    [/\b(?:boxing|mma)\b/, "boxing / mma"],
-    [/\bmeditation\b/, "meditation"],
-    [/\bpilates\b/, "pilates"],
-    [/\bbarre\b/, "barre"],
-    [/\bboot\s?camp\b/, "bootcamp"],
-    [/\bcircuit\b/, "circuit"],
-    [/\bstrength\b/, "strength"],
-    [/\byoga\b/, "yoga"],
-    [/\bhik(?:e|ing)\b/, "hike"],
-    [/\b(?:row|rowing)\b/, "row"],
-    [/\b(?:swim|swimming)\b/, "swim"],
-    [/\b(?:bike|biking|cycling|cycle)\b/, "bike"],
-    [/\b(?:walk|walking)\b/, "walk"],
-    [/\b(?:run|running)\b/, "run"],
-    [/\b(?:skate|skating)\b/, "skate"],
-    [/\b(?:dance|dancing)\b/, "dance"],
-    [/\bchair ride\b/, "chair ride"],
-    [/\bsports?\b/, "sport"],
-    [/\bactivity\b/, "activity"],
-    [/\bworkout\b/, "workout"],
-];
-
 class Tweet {
 	private text:string;
 	time:Date;
@@ -143,7 +110,7 @@ class Tweet {
         } else if (activityString.search("dance") !== -1) {
             return "dance";
         } 
-        return "activity";
+        return "general";
     }
 
     get distance():number {
