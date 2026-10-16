@@ -7,7 +7,6 @@ function parseTweets(runkeeper_tweets) {
 		return;
 	}
 
-	//TODO: Filter to just the written tweets
 	tweet_array = runkeeper_tweets.map(function(tweet) {
 		return new Tweet(tweet.text, tweet.created_at);
 	});
@@ -40,7 +39,6 @@ function renderTweets() {
 }
 
 function addEventHandlerForSearch() {
-	//TODO: Search the written tweets as text is entered into the search box, and add them to the table
 	document.getElementById('textFilter').addEventListener('input', renderTweets);
 }
 

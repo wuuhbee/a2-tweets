@@ -26,7 +26,6 @@ function parseTweets(runkeeper_tweets) {
 				num: count
 			}
 		});
-	console.log(activityChartValues);
 
 	activity_vis_spec = {
 		"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
