@@ -14,6 +14,7 @@
 3. What online resources did you consult when completing this assignment? (list sites like StackOverflow or specific URLs for tutorials; describe queries to Generative AI or use of AI-based code completion)
 - https://www.w3schools.com/jsref/jsref_search.asp
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match
+- prompt: "how do I parse the activity type going into specific workout types as well?" -> used the activities that showed up after the AI parsed the file
 
 
 4. What classmates or other individuals did you consult as part of this assignment? What did you discuss?
@@ -21,4 +22,4 @@
 
 
 5. Is there anything special we need to know in order to run your code?
-- None!
+- Nope!
